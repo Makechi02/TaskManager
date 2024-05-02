@@ -13,4 +13,9 @@
         <item name="android:statusBarColor">@android:color/holo_blue_dark</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="Theme.TaskManager.NoActionBar" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">#09C956</item>
+        <item name="colorOnPrimary">@color/black</item>
+    </style>
 </resources>

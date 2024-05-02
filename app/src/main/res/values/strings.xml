@@ -7,4 +7,5 @@
     <string name="due_date">Due Date (YYYY-MM-DD)</string>
     <string name="save">Save</string>
     <string name="edit">Edit</string>
+    <string name="add_task">add task</string>
 </resources>

@@ -6,15 +6,23 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class AddEditTaskActivity extends AppCompatActivity {
-	private EditText editTextTitle;
-	private EditText editTextDescription;
-	private EditText editTextDueDate;
+	private TextInputLayout titleInputLayout;
+	private TextInputLayout descriptionInputLayout;
+	private TextInputLayout dueDateInputLayout;
+
+	private TextInputEditText titleInputField;
+	private TextInputEditText descriptionInputField;
+	private TextInputEditText dueDateInputField;
+
 	private boolean isEditMode;
 	private Task taskToEdit;
 	private int position;
@@ -24,10 +32,14 @@ public class AddEditTaskActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_edit_task);
 
-		editTextTitle = findViewById(R.id.edit_text_title);
-		editTextDescription = findViewById(R.id.edit_text_description);
-		editTextDueDate = findViewById(R.id.edit_text_due_date);
-		Button buttonAction = findViewById(R.id.button_save);
+		titleInputLayout = findViewById(R.id.layout_input_title);
+		descriptionInputLayout = findViewById(R.id.layout_input_description);
+		dueDateInputLayout = findViewById(R.id.layout_input_due_date);
+
+		titleInputField = findViewById(R.id.edit_text_title);
+		descriptionInputField = findViewById(R.id.edit_text_description);
+		dueDateInputField = findViewById(R.id.edit_text_due_date);
+		MaterialButton actionBtn = findViewById(R.id.button_action);
 
 		Intent intent = getIntent();
 		if (intent.hasExtra("isEditMode")) {
@@ -42,16 +54,17 @@ public class AddEditTaskActivity extends AppCompatActivity {
 			taskToEdit = new Task(title, description, dueDate);
 			taskToEdit.setId(taskId);
 
-			editTextTitle.setText(taskToEdit.getTitle());
-			editTextDescription.setText(taskToEdit.getDescription());
-			editTextDueDate.setText(taskToEdit.getDueDate());
+			titleInputField.setText(taskToEdit.getTitle());
+			descriptionInputField.setText(taskToEdit.getDescription());
+			dueDateInputField.setText(taskToEdit.getDueDate());
 
-			buttonAction.setText(R.string.edit);
+			actionBtn.setText(R.string.edit);
+			actionBtn.setIcon(getResources().getDrawable(R.drawable.ic_edit));
 		} else {
-			buttonAction.setText(R.string.save);
+			actionBtn.setText(R.string.save);
 		}
 
-		buttonAction.setOnClickListener(view -> {
+		actionBtn.setOnClickListener(view -> {
 			if (isEditMode) {
 				updateTask();
 			} else {
@@ -59,7 +72,7 @@ public class AddEditTaskActivity extends AppCompatActivity {
 			}
 		});
 
-		editTextDueDate.setOnClickListener(view -> showDatePickerDialog());
+		dueDateInputField.setOnClickListener(view -> showDatePickerDialog());
 	}
 
 	private void showDatePickerDialog() {
@@ -84,7 +97,7 @@ public class AddEditTaskActivity extends AppCompatActivity {
 		DatePickerDialog datePickerDialog = new DatePickerDialog(AddEditTaskActivity.this,
 				(view, year1, monthOfYear, dayOfMonth1) -> {
 					String selectedDate = String.format(Locale.getDefault(), "%d-%02d-%02d", year1, monthOfYear + 1, dayOfMonth1);
-					editTextDueDate.setText(selectedDate);
+					dueDateInputField.setText(selectedDate);
 				}, year, month, dayOfMonth);
 		datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
 
@@ -92,9 +105,9 @@ public class AddEditTaskActivity extends AppCompatActivity {
 	}
 
 	private void saveTask() {
-		String title = editTextTitle.getText().toString().trim();
-		String description = editTextDescription.getText().toString().trim();
-		String dueDate = editTextDueDate.getText().toString().trim();
+		String title = Objects.requireNonNull(titleInputField.getText()).toString().trim();
+		String description = Objects.requireNonNull(descriptionInputField.getText()).toString().trim();
+		String dueDate = Objects.requireNonNull(dueDateInputField.getText()).toString().trim();
 
 		if (validateFields()) {
 			Intent resultIntent = new Intent();
@@ -107,9 +120,9 @@ public class AddEditTaskActivity extends AppCompatActivity {
 	}
 
 	private void updateTask() {
-		String title = editTextTitle.getText().toString().trim();
-		String description = editTextDescription.getText().toString().trim();
-		String dueDate = editTextDueDate.getText().toString().trim();
+		String title = Objects.requireNonNull(titleInputField.getText()).toString().trim();
+		String description = Objects.requireNonNull(descriptionInputField.getText()).toString().trim();
+		String dueDate = Objects.requireNonNull(dueDateInputField.getText()).toString().trim();
 
 		if (validateFields()) {
 			Intent resultIntent = new Intent();
@@ -124,25 +137,25 @@ public class AddEditTaskActivity extends AppCompatActivity {
 	}
 
 	private boolean validateFields() {
-		String title = editTextTitle.getText().toString().trim();
-		String description = editTextDescription.getText().toString().trim();
-		String dueDate = editTextDueDate.getText().toString().trim();
+		String title = Objects.requireNonNull(titleInputField.getText()).toString().trim();
+		String description = Objects.requireNonNull(descriptionInputField.getText()).toString().trim();
+		String dueDate = Objects.requireNonNull(dueDateInputField.getText()).toString().trim();
 
 		if (TextUtils.isEmpty(title)) {
 			showMessage("Title is required");
-			editTextTitle.setError("Title is required");
+			titleInputLayout.setError("Title is required");
 			return false;
 		}
 
 		if (TextUtils.isEmpty(description)) {
 			showMessage("Description is required");
-			editTextDescription.setError("Description is required");
+			descriptionInputLayout.setError("Description is required");
 			return false;
 		}
 
 		if (TextUtils.isEmpty(dueDate)) {
 			showMessage("Due Date is required");
-			editTextDueDate.setError("Due Date is required");
+			dueDateInputLayout.setError("Due Date is required");
 			return false;
 		}
 
