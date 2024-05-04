@@ -1,11 +1,16 @@
-package com.makbe.taskmanager;
+package com.makbe.taskmanager.entity;
 
-import org.jetbrains.annotations.NotNull;
+import androidx.room.*;
 
+@Entity(tableName = "tasks")
 public class Task {
-	private long id;
+	@PrimaryKey(autoGenerate = true)
+	private int id;
+
 	private String title;
 	private String description;
+
+	@ColumnInfo(name = "due_date")
 	private String dueDate;
 
 	public Task(String title, String description, String dueDate) {
@@ -14,15 +19,11 @@ public class Task {
 		this.dueDate = dueDate;
 	}
 
-	public Task() {
-
-	}
-
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -48,16 +49,5 @@ public class Task {
 
 	public void setDueDate(String dueDate) {
 		this.dueDate = dueDate;
-	}
-
-	@NotNull
-	@Override
-	public String toString() {
-		return "Task {" +
-				"id=" + id +
-				", title='" + title + '\'' +
-				", description='" + description + '\'' +
-				", dueDate='" + dueDate + '\'' +
-				'}';
 	}
 }

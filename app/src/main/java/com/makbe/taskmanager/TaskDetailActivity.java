@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import com.google.android.material.appbar.MaterialToolbar;
 
 public class TaskDetailActivity extends AppCompatActivity {
 
@@ -12,6 +13,9 @@ public class TaskDetailActivity extends AppCompatActivity {
 	protected void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_task_detail);
+
+		MaterialToolbar toolbar = findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
 
 		Intent intent = getIntent();
 		String title = intent.getStringExtra("title");

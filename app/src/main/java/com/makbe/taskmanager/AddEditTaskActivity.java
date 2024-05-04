@@ -14,6 +14,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import com.makbe.taskmanager.entity.Task;
+
 public class AddEditTaskActivity extends AppCompatActivity {
 	private TextInputLayout titleInputLayout;
 	private TextInputLayout descriptionInputLayout;
@@ -45,7 +47,7 @@ public class AddEditTaskActivity extends AppCompatActivity {
 		if (intent.hasExtra("isEditMode")) {
 			isEditMode = getIntent().getBooleanExtra("isEditMode", false);
 
-			long taskId = getIntent().getLongExtra("taskId", 0);
+			int taskId = getIntent().getIntExtra("taskId", 0);
 			String title = getIntent().getStringExtra("title");
 			String description = getIntent().getStringExtra("description");
 			String dueDate = getIntent().getStringExtra("dueDate");
